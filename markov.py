@@ -18,7 +18,6 @@ class SimpleMarkovGenerator(object):
         return text_string
 
 
-
     def make_chains(self, corpus):
         """Takes input text as string; stores chains.
 
@@ -42,11 +41,22 @@ class SimpleMarkovGenerator(object):
         # stores chains (as opposed to creating them)
         # calls read_files before getting into its primary function
 
-    def make_text(self):
+    def make_text(self, chains):
         """Takes dictionary of markov chains; returns random text."""
+        key = choice(chains.keys())
+        words = [key[0], key[1]]
+        while key in chains:
+        # Keep looping until we have a key that isn't in the chains
+        # (which would mean it was the end of our original text)
+        #
+        # Note that for long texts (like a full book), this might mean
+        # it would run for a very long time.
 
-        # your code here
-        # basically the second function on the non-oo file
+            word = choice(chains[key])
+            words.append(word)
+            key = (key[1], word)
+
+        return " ".join(words)
 
 
 if __name__ == "__main__":
